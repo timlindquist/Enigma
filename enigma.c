@@ -42,9 +42,9 @@ int main(){
 		printf("\n");
 	}*/
 	for(;;){
-		for(r3_pos;r3_pos<26;r3_pos++){
-			for(r2_pos;r2_pos<26;r2_pos++){
-				for(r1_pos;r1_pos<26;r1_pos++){
+		for(;r3_pos<26;r3_pos++){
+			for(;r2_pos<26;r2_pos++){
+				for(;r1_pos<26;r1_pos++){
 					scanf(" %c",&input);
 					//printf("position:%d\n",position(input));
 					//printf("object:%c\n",rotor1[0][position(input)]);
