@@ -8,7 +8,7 @@ char rotor2[2][26]={{'J','I','A','F','N','T','E','P','H','W','L','U','B','G','C'
 char rotor3[2][26]={{'X','C','U','J','M','I','K','P','S','Y','L','F','R','O','N','V','D','T','E','W','G','B','Q','Z','A','H'},
 										{'I','E','G','N','W','J','Q','A','S','X','B','R','P','C','V','K','H','O','L','F','Y','U','Z','D','T','M'}};
 int reflector[2][26]={{'O','Y','C','R','E','U','B','Z','N','X','S','V','H','W','A','K','Q','I','D','J','M','P','L','F','T','G'},
-										{'U','G','H','A','N','O','I','Q','E','K','J','L','C','M','R','X','Z','B','P','S','W','D','V','T','F','Y'}};
+										  {'U','G','H','A','N','O','I','Q','E','K','J','L','C','M','R','X','Z','B','P','S','W','D','V','T','F','Y'}};
 
 void new_page();
 void rotate(int rotor, int amount);
@@ -20,7 +20,8 @@ int main(){
 	int r2_pos;
 	int r3_pos;
 	int i,j,k;
-	char input[10000];
+	char input;
+	int next_spot;
 	printf("Rotor Placement\n");
 	printf("Rotor 1: ");
 	scanf("%d",&r1_pos);
@@ -34,14 +35,93 @@ int main(){
 	new_page();
 	printf("\nKey:%d, %d, %d\n",r3_pos,r2_pos,r1_pos);
 
-	for(;;){
-		scanf("%s",&input);
-		position(input);
-		while(input[i]!=\0){
-			
+	/*for(i=0;i<2;i++){
+		for(j=0;j<26;j++){
+			printf("%c",rotor1[i][j]);
 		}
+		printf("\n");
+	}*/
+	for(;;){
+		for(r3_pos;r3_pos<26;r3_pos++){
+			for(r2_pos;r2_pos<26;r2_pos++){
+				for(r1_pos;r1_pos<26;r1_pos++){
+					scanf(" %c",&input);
+					//printf("position:%d\n",position(input));
+					//printf("object:%c\n",rotor1[0][position(input)]);
+					for(i=0;i<26;i++){
+						//printf("%c, %c\n",rotor1[1][i],rotor1[0][position(input)]);
+						if(rotor1[1][i]==rotor1[0][position(input)]){
+							//printf("%c\n",rotor1[0][0]]);
+							next_spot=i;
+							break;
+						}
+					}
+					//printf("output of 1:%d\n",next_spot);
+					//rotor transistion 1 to 2
+					for(i=0;i<26;i++){
+						//printf("%c,%c",rotor2[1][i],rotor2[0][next_spot]);
+						if(rotor2[1][i]==rotor2[0][next_spot]){
+							next_spot=i;
+							break;
+						}
+					}
+					//printf("output of 2:%d\n",next_spot);
+					//rotor transition 2 to 3
+					for(i=0;i<26;i++){
+						if(rotor3[1][i]==rotor3[0][next_spot]){
+							next_spot=i;
+							break;
+						}
+					}
+					//printf("output of 3:%d\n",next_spot);
+					//reflector
+					for(i=0;i<26;i++){
+						if(reflector[0][i]==reflector[1][next_spot]){
+							next_spot=i;
+							break;
+						}
+					}
 
+					//rotor transistion 3 to 2
+					for(i=0;i<26;i++){
+						if(rotor3[0][i]==rotor3[1][next_spot]){
+							next_spot=i;
+							break;
+						}
+					}
+
+					//rotor transition 2 to 1
+
+					for(i=0;i<26;i++){
+						if(rotor2[0][i]==rotor2[1][next_spot]){
+							next_spot=i;
+							break;
+						}
+					}
+
+					//rotor transition 1 to key
+					for(i=0;i<26;i++){
+						if(rotor1[0][i]==rotor1[1][next_spot]){
+							next_spot=i;
+							break;
+						}
+					}
+
+					//neex to convert
+					printf("%c",next_spot+65);
+
+				rotate(1,1);
+			}
+			r1_pos=0;
+			rotate(2,1);
+		}
+		r2_pos=0;
+		rotate(3,1);
 	}
+	r3_pos=0;
+	}
+
+
 	/*
 	rotate(3,1);
 	for(i=0;i<2;i++){
