@@ -23,12 +23,15 @@ int main(){
 	printf("Rotor Placement\n");
 	printf("Rotor 1: ");
 	scanf("%d",&r1_pos);
+	r1_pos--;
 	rotate(1,r1_pos);
 	printf("Rotor 2: ");
 	scanf("%d",&r2_pos);
+	r2_pos--;
 	rotate(2,r2_pos);
 	printf("Rotor 3: ");
 	scanf("%d",&r3_pos);
+	r3_pos--;
 	rotate(3,r3_pos);
 	printf("\nEnter Text:\n");
 
