@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+			<head>
+				<title>Javascript</title>
+				<script>
+
+				function rotate(array,amount){
+					var i,j,k;
+					for(k=0;k<amount;k++){
+							var top=array[0][0];
+							var bottom=array[1][0];
+							for(i=0;i<2;i++){
+								for(j=0;j<26-1;j++){
+									array[i][j]=array[i][j+1];
+								}
+							}
+							array[0][25]=top;
+							array[1][25]=bottom;
+					}
+					return array;
+				}
+
+				function io(array,position){
+					var i;
+					for(i=0;i<26;i++){
+						if(array[1][i]==array[0][position]){
+							return i;
+						}
+					}
+				}
+
+				function oi(array,position){
+					var i;
+					for(i=0;i<26;i++){
+						if(array[0][i]==array[1][position]){
+							return i;
+						}
+					}
+				}
+
+				function path(alpha,rotor1,rotor2,rotor3,reflector,char){
+					var i,j;
+					var position;
+					var letter;
+					//enter array at char location from alpha
+					for(i=0;i<26;i++){
+						if(alpha[i]==char){
+							position=i;
+							break;
+						}
+					}
+
+					//enter rotor 1 at location
+					position=io(rotor1,position);
+					//enter rotor 2 at location
+					position=io(rotor2,position);
+					//enter rotor 3 at location
+					position=io(rotor3,position);
+					//enter reflector at location
+					position=io(reflector,position);
+					//enter rotor 3 at location
+					position=oi(rotor3,position);
+					//enter rotor 2 at location
+					position=oi(rotor2,position);
+					//enter rotor 1 at location
+					position=oi(rotor1,position);
+					//exit through alpha
+					letter=alpha[position];
+
+
+					return letter;
+				}
+
+
+				function engimaEncryption(){
+					//Define arrays
+					var alpha=new Array('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z');
+					var rotor1=new Array(2);
+					rotor1[0]=new Array('O','L','J','H','K','E','U','Y','B','I','S','A','Q','D','W','Z','T','F','P','N','X','G','R','M','V','C');
+					rotor1[1]=new Array('C','J','N','O','L','X','Y','Z','M','W','S','P','D','I','F','K','B','U','T','A','H','Q','E','R','G','V');
+
+					var rotor2=new Array(2);
+					rotor2[0]=new Array('J','I','A','F','N','T','E','P','H','W','L','U','B','G','C','M','Y','D','Z','Q','V','K','O','S','X','R');
+					rotor2[1]=new Array('M','D','K','B','F','N','G','C','W','Z','Y','O','T','J','I','E','L','X','H','Q','V','U','A','R','S','P');
+
+					var rotor3=new Array(2);
+					rotor3[0]=new Array('X','C','U','J','M','I','K','P','S','Y','L','F','R','O','N','V','D','T','E','W','G','B','Q','Z','A','H');
+					rotor3[1]=new Array('I','E','G','N','W','J','Q','A','S','X','B','R','P','C','V','K','H','O','L','F','Y','U','Z','D','T','M');
+
+					var reflector=new Array(2);
+					reflector[0]=new Array('O','Y','C','R','E','U','B','Z','N','X','S','V','H','W','A','K','Q','I','D','J','M','P','L','F','T','G');
+					reflector[1]=new Array('U','G','H','A','N','O','I','Q','E','K','J','L','C','M','R','X','Z','B','P','S','W','D','V','T','F','Y');
+
+					//Other variables
+					var i,j,k;
+					var position=0;
+					var r1_pos,r2_pos,r3_pos;
+					var x = document.getElementById("frm1");
+					var output= "";
+					var text = x.elements[0].value;
+					var input=new Array();
+					for (i = 0; i < text.length ;i++) {
+						input[i]=text.charAt(i);
+						input[i]=input[i].toUpperCase();
+					}
+
+					r1_pos= document.getElementById("rotor_1").value;
+					r2_pos= document.getElementById("rotor_2").value;
+					r3_pos= document.getElementById("rotor_3").value;
+
+					//initial rotate
+					rotor1=rotate(rotor1,r1_pos-1);
+					rotor2=rotate(rotor2,r2_pos-1);
+					rotor3=rotate(rotor3,r3_pos-1);
+
+						for(;r3_pos<26;r3_pos++){
+							for(;r2_pos<26;r2_pos++){
+								for(;r1_pos<26;r1_pos++){
+									while(!alpha.includes(input[position])){
+										position++;
+										if(position>input.length){
+											break;
+										}
+									}
+									if(position<input.length){
+										output=output+path(alpha,rotor1,rotor2,rotor3,reflector,input[position]);
+										position++;
+									}
+									else{
+										document.getElementById("demo").innerHTML =output;
+										return;
+									}
+									rotor1=rotate(rotor1,1);
+								}
+								rotor2=rotate(rotor2,1);
+							}
+							rotor3=rotate(rotor3,1);
+						}
+
+				}
+
+
+				</script>
+			</head>
+			<body>
+
+
+					<form>
+					<select id="rotor_1">
+					  <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option><option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option><option>19</option><option>20</option><option>21</option><option>22</option><option>23</option><option>24</option><option>25</option><option>26</option>
+					</select>
+
+					<form>
+					<select id="rotor_2">
+						<option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option><option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option><option>19</option><option>20</option><option>21</option><option>22</option><option>23</option><option>24</option><option>25</option><option>26</option>
+					</select>
+					<form>
+					<select id="rotor_3">
+						<option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option><option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option><option>19</option><option>20</option><option>21</option><option>22</option><option>23</option><option>24</option><option>25</option><option>26</option>
+					</select>
+					</form>
+					<br>
+					<!--input box-->
+					<form id="frm1" action="/action_page.php">
+					  Input: <input type="text" name="stdin"><br>
+					</form>
+					<br>
+					<!--encrypt button-->
+					<button onclick="engimaEncryption()">Encrypt</button>
+					<p id="demo"></p>
+
+
+
+			</body>
+</html>
